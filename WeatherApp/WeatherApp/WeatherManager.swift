@@ -3,7 +3,6 @@
 //  WeatherApp
 //
 //  Created by Jeanette on 1/26/25.
-
 //
 
 import Foundation
@@ -50,7 +49,8 @@ struct WeatherManager {
             guard let unwrappedData = data else {
                 return
             }
-            let dataString = String(data: unwrappedData, encoding: .utf8)
+//            let dataString = String(data: unwrappedData, encoding: .utf8)
+//            print("[d] datastring<##> \(String(describing: dataString))")
             parseJSON(weatherData: unwrappedData)
         }
         

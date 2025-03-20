@@ -3,7 +3,6 @@
 //  WeatherApp
 //
 //  Created by Jeanette on 1/26/25.
-
 //
 
 import Foundation

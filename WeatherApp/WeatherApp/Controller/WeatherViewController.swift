@@ -3,7 +3,6 @@
 //  WeatherApp
 //
 //  Created by Jeanette on 3/20/25.
-
 //
 
 import UIKit
@@ -29,18 +28,16 @@ class WeatherViewController: UIViewController {
         locationManager.delegate = self
         locationManager.requestLocation()
         
-//        locationManager.startUpdatingLocation()
-        
         searchTextField.delegate = self
         weatherManager.delegate = self
     }
     
-    
+    // request location when search button is pressed
     @IBAction func buttonPressed(_ sender: UIButton) {
-        print("location requested")
         locationManager.requestLocation()
         
     }
+    
 }
 
 //MARK: - UITextFieldDelegate
@@ -48,16 +45,10 @@ class WeatherViewController: UIViewController {
 extension WeatherViewController: UITextFieldDelegate {
     @IBAction func searchPressed(_ sender: UIButton) {
         searchTextField.endEditing(true)
-        
-//        guard let text = searchTextField.text else { return }
-//        print(text)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchTextField.endEditing(true)
-        
-//        guard let text = searchTextField.text else { return false }
-//        print(text)
         return true
     }
     
@@ -72,8 +63,7 @@ extension WeatherViewController: UITextFieldDelegate {
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         //get weather
-        
-        weatherManager.fetchWeather(cityName: (textField.text ?? "San Francisco"), metricType: "metric")
+        weatherManager.fetchWeather(cityName: (textField.text ?? "San Francisco"), metricType: "imperial")
         textField.placeholder = "Search"
         textField.text = ""
     }
@@ -101,9 +91,6 @@ extension WeatherViewController: WeatherManangerDelegate {
 //MARK: - CLLocationManagerDelegate
 
 extension WeatherViewController: CLLocationManagerDelegate {
-//    func didUpdateLocations(weatherManager: WeatherManager, weatherModel: WeatherModel) {
-//        
-//    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("did update locations")
@@ -112,7 +99,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
         let lat = location.coordinate.latitude
         let lon = location.coordinate.longitude
         
-        weatherManager.fetchWeather(latitude: lat, longitute: lon, metricType: "metric")
+        weatherManager.fetchWeather(latitude: lat, longitute: lon, metricType: "imperial")
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
