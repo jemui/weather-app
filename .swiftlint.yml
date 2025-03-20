@@ -1,0 +1,151 @@
+# To disable a rule for a specific line:
+# <CODE> //swiftlint:disable: this <rule_name>
+
+# Disabled Rules
+disabled_rules:
+- trailing_whitespace
+- trailing_newline
+- unused_optional_binding
+- comment_spacing
+- vertical_whitespace
+- mark
+- todo
+- control_statement
+- shorthand_operator
+- unused_closure_parameter
+- syntactic_sugar
+- redundant_discardable_let
+- trailing_semicolon
+- inclusive_language
+- function_parameter_count
+
+# Opt-in Rules
+opt_in_rules:
+- empty_count
+- empty_string
+- force_unwrapping
+- weak_delegate
+- unowned_variable_capture
+
+# Excluded Folders
+excluded:
+- Carthage
+- Pods
+- SwiftLint/Common/3rdPartyLib
+
+# Metric Rules
+line_length:
+    warning: 5000
+    error: 7000
+    ignores_function_declarations: true
+    ignores_comments: true
+    ignores_urls: true
+function_body_length:
+    warning: 5000
+    error: 1000
+type_body_length:
+    warning: 5000
+    error: 10000
+file_length:
+    warning: 1000
+    error: 10000
+    ignore_comment_only_lines: true
+cyclomatic_complexity:
+    warning: 15
+    error: 25
+    
+# Idiomatic Rules
+force_cast:
+    severity: warning
+force_try:
+    severity: warning
+    
+# Tollgate Rules
+reduce_boolean:
+    severity: error
+redundant_optional_initialization:
+    severity: error
+    
+# Custom Rules
+custom_rules:
+    non_weak_delegate_datasource:
+        included: ".*.swift"
+        name: "Retain Cycle"
+        regex: '^\ *var\ *(delegate)'
+        message: "Delegate/datasource may be weak."
+        severity: warning
+        
+    swiftlint_file_disabling:
+        included: ".*.swift"
+        name: "SwiftLint File Disabling"
+        regex: 'swiftlint:disable\\s'
+        match_kinds:
+            - comment
+        message: "Prefer swiftlint:disable:next or swiftlint:disable:this"
+        severity: warning
+    
+    protocol_conformance:
+        included: ".*.swift"
+        name: "Protocol Conformance"
+        regex: "(class|struct|extension)[[:space:]]+(?i:(?![^d]*delegate:))[^'\"()<>{},!?:]+:([^'\"<>(){},!?:]+,)+[^'\"<>(){},!?:]*\\{"
+        match_kinds:
+            - keyword
+        message: "Protocol conformance should be declared in a separate extension in the same file"
+        severity: warning
+        
+    public_ui_model:
+        included: ".*.swift"
+        name: "Public UIModel"
+        regex: "^(open |private |internal )(class|struct) [a-zA-Z]+(?i)UI(Model|DAO|)"
+        message: "UIModel should be marked as public only."
+        severity: warning
+        
+    non_public_datamodel:
+        included: ".*.swift"
+        name: "Non-public Data Model"
+        regex: "^(open |private |public )(class|struct) [a-zA-Z]+(?i)(Request|Response)(Model|DAO|)"
+        message: "Data Model should be marked as internal only"
+        severity: warning
+        
+    non_public_datasource:
+        included: ".*.swift"
+        name: "Non-public Data Source"
+        regex: "^(open |private |public )(class|struct) [a-zA-Z]+(?i)DataSource"
+        message: "Data Source should be marked as internal only."
+        severity: warning
+        
+    dont_import_uikit_in_viewmodel:
+        included: ".*(?i)ViewModel.swift"
+        name: "UIKit Imported into ViewModel"
+        regex: "^import (UIKit)$"
+        message: "Don't import UIKit in ViewModel"
+        severity: warning
+        
+    dont_import_uikit_in_model:
+        included: ".*(?i)Model.swift"
+        name: "UIKit Imported into Model"
+        regex: "^import (UIKit)$"
+        message: "Don't import UIKit in Model"
+        severity: warning
+        
+    dont_import_uikit_in_datasource:
+        included: ".*(?i)DataSource.swift"
+        name: "UIKit Imported into DataSource"
+        regex: "^import (UIKit)$"
+        message: "Don't import UIKit in DataSource"
+        severity: warning
+        
+    validate_string_decsribing:
+        included: ".*.swift"
+        name: "Validate String(describing:)"
+        regex: 'String\(describing:'
+        message: "Replace String(describing:) with ObjectIdentifier() if possible. If not, mark code with swiftlint:disable"
+        severity: warning
+        
+    validate_any_hashable:
+        included: ".*.swift"
+        name: "Validate AnyHashable"
+        regex: 'AnyHashable:'
+        message: "Replace AnyHashable with a concrete type if possible. If not, mark code with swiftlint:disable"
+        severity: warning
+reporter: "xcode"
