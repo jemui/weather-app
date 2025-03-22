@@ -22,8 +22,6 @@ struct WeatherResponse: Codable {
     var id: Int
     var name: String
     var cod: Int
-    
-    
 }
 
 struct Coord: Codable {

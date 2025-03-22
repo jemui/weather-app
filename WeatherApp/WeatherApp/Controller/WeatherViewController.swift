@@ -15,7 +15,6 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
     
-    
     var weatherManager = WeatherManager()
     let locationManager = CLLocationManager()
  
@@ -73,27 +72,25 @@ extension WeatherViewController: UITextFieldDelegate {
 
 extension WeatherViewController: WeatherManangerDelegate {
     
-    func didUpdateWeather(weatherManager: WeatherManager, weatherModel: WeatherModel) {
-    
-        DispatchQueue.main.async {
-            
+    nonisolated func didUpdateWeather(weatherManager: WeatherManager, weatherModel: WeatherModel) {
+        Task { @MainActor in
             self.temperatureLabel.text = weatherModel.temperatureString
             self.conditionImageView.image = UIImage(systemName: weatherModel.conditionName)
             self.cityLabel.text = weatherModel.cityName
         }
     }
     
-    func didFailWithError(error: any Error) {
+    nonisolated func didFailWithError(error: any Error) {
         print(error)
     }
 }
 
 //MARK: - CLLocationManagerDelegate
 
-extension WeatherViewController: CLLocationManagerDelegate {
+extension WeatherViewController: @preconcurrency CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("did update locations")
+//        print("did update locations")
         guard let location = locations.last else { return }
         locationManager.stopUpdatingLocation()
         let lat = location.coordinate.latitude
@@ -109,7 +106,4 @@ extension WeatherViewController: CLLocationManagerDelegate {
     func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
         print("resume location update")
     }
-//    func didFailWithError(error: any Error) {
-//        print(error)
-//    }
 }
